@@ -1,5 +1,9 @@
 #  ARE — Action Rule Event Engine
 
+[![NuGet](https://img.shields.io/nuget/v/ARE.Core.svg)](https://www.nuget.org/packages/ARE.Core/)
+[![npm version](https://badge.fury.io/js/are-engine-core.svg)](https://www.npmjs.com/package/are-engine-core)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 **Sıfır bağımlılık, cross-platform, hafif olay-kural-eylem motoru.**
 
 Oyun, web, mobil, masaüstü — tek motor, her yerde aynı mantık.
@@ -128,7 +132,7 @@ dotnet add package ARE.Core
 
 **JavaScript:**
 ```bash
-npm install are-core
+npm install are-engine-core
 ```
 
 ---
