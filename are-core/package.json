@@ -1,0 +1,31 @@
+{
+  "name": "are-core",
+  "version": "1.0.0",
+  "description": "Action Rule Event Engine - Zero dependency, cross-platform, lightweight event-rule-action engine",
+  "main": "dist/are-core.js",
+  "types": "dist/are-core.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/are-core.js",
+      "import": "./dist/are-core.mjs",
+      "types": "./dist/are-core.d.ts"
+    }
+  },
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "rules-engine",
+    "event-driven",
+    "action",
+    "cross-platform",
+    "game-engine",
+    "lightweight",
+    "zero-dependency"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "README.md"
+  ]
+}

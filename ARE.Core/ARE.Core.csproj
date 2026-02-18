@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<!-- Çoklu platform: .NET 6/7/8 + .NET Standard 2.1 (Unity, Godot, eski projeler) -->
+		<TargetFrameworks>netstandard2.1;net471;net6.0;net7.0;net8.0</TargetFrameworks>
+		<RootNamespace>ARE.Core</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+
+		<!-- NuGet Paket Bilgileri -->
+		<PackageId>ARE.Core</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>BeratARPA</Authors>
+		<Company>BeratARPA</Company>
+		<Description>
+			Action Rule Event Engine - Sıfır bağımlılık, cross-platform, hafif olay-kural-eylem motoru.
+			Oyun, web, mobil, masaüstü her yerde kullanılabilir.
+		</Description>
+		<PackageTags>rules-engine;event-driven;action;cross-platform;game-engine;lightweight</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://github.com/BeratARPA/ARE</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/BeratARPA/ARE</RepositoryUrl>
+
+		<!-- Diğer -->
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+</Project>

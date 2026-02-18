@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/examples/">
+    <Project Path="ARE.Examples.Desktop/ARE.Examples.Desktop.csproj" Id="79c8a0d2-502c-4f45-9be1-15513c418a5f" />
+    <Project Path="ARE.Examples.Game/ARE.Examples.Game.csproj" Id="fdc1248c-08c9-4602-a9df-4a3a91d5b5cb" />
+    <Project Path="ARE.Examples.WebApi/ARE.Examples.WebApi.csproj" Id="26ffdd5f-afee-4c6b-86bf-2bf6eaeeb86f" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="ARE.Core/ARE.Core.csproj" Id="27c4eec4-f4cf-486e-a965-052f00bdaff6" />
+  </Folder>
+  <Folder Name="/src/are-core/">
+    <File Path="are-core/package.json" />
+    <File Path="are-core/README.md" />
+  </Folder>
+  <Folder Name="/src/are-core/dist/">
+    <File Path="are-core/dist/are-core.d.ts" />
+    <File Path="are-core/dist/are-core.js" />
+    <File Path="are-core/dist/are-core.mjs" />
+  </Folder>
+  <Folder Name="/src/are-core/test/">
+    <File Path="are-core/test/test.js" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="ARE.Core.Tests/ARE.Core.Tests.csproj" Id="1636ee55-fced-438f-ac9c-463e0f67b001" />
+  </Folder>
+</Solution>
