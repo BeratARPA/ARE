@@ -86,7 +86,7 @@ namespace ARE.Core.Rules
         /// <summary>Kısa yol: alan > değer</summary>
         public Rule WhenGreaterThan(string field, object value) => WhenField(field, CompareOp.GreaterThan, value);
 
-        /// <summary>Kısa yol: alan < değer</summary>
+        /// <summary>Kısa yol: alan &lt; değer</summary>
         public Rule WhenLessThan(string field, object value) => WhenField(field, CompareOp.LessThan, value);
 
         /// <summary>Özel ICondition ekle</summary>
