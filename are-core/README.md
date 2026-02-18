@@ -12,7 +12,7 @@ Browser, Node.js, React, Vue, React Native, Electron — her JS/TS ortamında ç
 ## Kurulum
 
 ```bash
-npm install are-core
+npm install are-engine-core
 ```
 
 Build adımı yok. TypeScript tip tanımları dahil gelir.
