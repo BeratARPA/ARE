@@ -10,7 +10,7 @@
 
 		<!-- NuGet Paket Bilgileri -->
 		<PackageId>ARE.Core</PackageId>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<Authors>BeratARPA</Authors>
 		<Company>BeratARPA</Company>
 		<Description>

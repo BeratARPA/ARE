@@ -1,0 +1,71 @@
+{
+  "app": {
+    "title": "ARE Playground",
+    "subtitle": "Action Rule Event Engine — Interaktif Demo",
+    "github": "GitHub",
+    "viewSource": "Kaynak Kodu"
+  },
+  "tabs": {
+    "rpgGame": "RPG Oyun",
+    "smartHome": "Akıllı Ev",
+    "ecommerce": "E-Ticaret",
+    "sandbox": "Sandbox"
+  },
+  "scenarios": {
+    "rpgGame": {
+      "title": "RPG Oyun Motoru",
+      "description": "Savaş, ganimet, bölge efektleri ve patron savaşları içeren bir fantezi RPG oyunu — tümü ARE kurallarıyla yönetilir."
+    },
+    "smartHome": {
+      "title": "Akıllı Ev Otomasyonu",
+      "description": "Sensörler, zamanlayıcılar, enerji yönetimi ve güvenlik içeren IoT ev otomasyonu — ARE kurallarıyla çalışır."
+    },
+    "ecommerce": {
+      "title": "E-Ticaret Platformu",
+      "description": "Sipariş yönetimi, stok uyarıları, müşteri ödülleri ve sepet kurtarma içeren online mağaza — ARE kurallarıyla yönetilir."
+    }
+  },
+  "panels": {
+    "fireEvent": "Olay Tetikle",
+    "selectEvent": "Olay Seçin",
+    "eventData": "Olay Verileri",
+    "fire": "Tetikle!",
+    "rules": "Kurallar",
+    "rulesCount": "{{count}} kural",
+    "actions": "Aksiyonlar",
+    "actionsCount": "{{count}} aksiyon",
+    "liveLog": "Canlı Log",
+    "clearLog": "Temizle",
+    "noLogs": "Logları görmek için bir olay tetikleyin...",
+    "context": "Context",
+    "emptyContext": "Context boş. Veri doldurmak için bir olay tetikleyin.",
+    "results": "Sonuçlar",
+    "noResults": "Henüz sonuç yok. Motor çıktısını görmek için bir olay tetikleyin.",
+    "firedRules": "Eşleşen",
+    "skippedRules": "Atlanan",
+    "duration": "{{ms}}ms",
+    "enabled": "Aktif",
+    "disabled": "Devre Dışı",
+    "priority": "Öncelik",
+    "group": "Grup",
+    "matchMode": "Eşleşme",
+    "conditions": "Koşullar",
+    "triggeredActions": "Aksiyonlar"
+  },
+  "sandbox": {
+    "title": "Kod Sandbox",
+    "description": "Kendi ARE kurallarınızı yazın ve olayları tetikleyin. Tam ARE engine API'si kullanılabilir.",
+    "run": "Çalıştır",
+    "reset": "Sıfırla",
+    "console": "Konsol",
+    "clearConsole": "Temizle",
+    "emptyConsole": "Kodunuzu çalıştırmak için 'Çalıştır'a tıklayın..."
+  },
+  "footer": {
+    "builtWith": "Yapımında",
+    "areEngine": "ARE Engine",
+    "npm": "npm",
+    "nuget": "NuGet",
+    "pubdev": "pub.dev"
+  }
+}

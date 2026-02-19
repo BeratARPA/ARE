@@ -1,0 +1,71 @@
+{
+  "app": {
+    "title": "ARE Playground",
+    "subtitle": "Action Rule Event Engine — Interactive Demo",
+    "github": "GitHub",
+    "viewSource": "View Source"
+  },
+  "tabs": {
+    "rpgGame": "RPG Game",
+    "smartHome": "Smart Home",
+    "ecommerce": "E-Commerce",
+    "sandbox": "Sandbox"
+  },
+  "scenarios": {
+    "rpgGame": {
+      "title": "RPG Game Engine",
+      "description": "A fantasy role-playing game with combat, loot drops, zone effects, and boss battles — all driven by ARE rules."
+    },
+    "smartHome": {
+      "title": "Smart Home Automation",
+      "description": "An IoT home automation system with sensors, schedules, energy management, and security — powered by ARE rules."
+    },
+    "ecommerce": {
+      "title": "E-Commerce Platform",
+      "description": "An online store with order processing, inventory alerts, customer rewards, and cart recovery — managed by ARE rules."
+    }
+  },
+  "panels": {
+    "fireEvent": "Fire Event",
+    "selectEvent": "Select Event",
+    "eventData": "Event Data",
+    "fire": "Fire!",
+    "rules": "Rules",
+    "rulesCount": "{{count}} rules",
+    "actions": "Actions",
+    "actionsCount": "{{count}} actions",
+    "liveLog": "Live Log",
+    "clearLog": "Clear",
+    "noLogs": "Fire an event to see logs appear here...",
+    "context": "Context",
+    "emptyContext": "Context is empty. Fire an event to populate data.",
+    "results": "Results",
+    "noResults": "No results yet. Fire an event to see the engine output.",
+    "firedRules": "Fired",
+    "skippedRules": "Skipped",
+    "duration": "{{ms}}ms",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "priority": "Priority",
+    "group": "Group",
+    "matchMode": "Match",
+    "conditions": "Conditions",
+    "triggeredActions": "Actions"
+  },
+  "sandbox": {
+    "title": "Code Sandbox",
+    "description": "Write your own ARE rules and fire events. The full ARE engine API is available.",
+    "run": "Run",
+    "reset": "Reset",
+    "console": "Console",
+    "clearConsole": "Clear",
+    "emptyConsole": "Click 'Run' to execute your code..."
+  },
+  "footer": {
+    "builtWith": "Built with",
+    "areEngine": "ARE Engine",
+    "npm": "npm",
+    "nuget": "NuGet",
+    "pubdev": "pub.dev"
+  }
+}
