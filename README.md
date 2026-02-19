@@ -2,6 +2,7 @@
 
 [![NuGet](https://img.shields.io/nuget/v/ARE.Core.svg)](https://www.nuget.org/packages/ARE.Core/)
 [![npm version](https://badge.fury.io/js/are-engine-core.svg)](https://www.npmjs.com/package/are-engine-core)
+[![pub package](https://img.shields.io/pub/v/are_engine_core.svg)](https://pub.dev/packages/are_engine_core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Zero dependency, cross-platform, lightweight event-rule-action engine.**
