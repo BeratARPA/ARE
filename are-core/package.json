@@ -1,9 +1,14 @@
 {
-  "name": "are-core",
+  "name": "are-engine-core",
   "version": "1.0.0",
   "description": "Action Rule Event Engine - Zero dependency, cross-platform, lightweight event-rule-action engine",
   "main": "dist/are-core.js",
   "types": "dist/are-core.d.ts",
+  "author": "BeratARPA",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BeratARPA/ARE"
+  },
   "exports": {
     ".": {
       "require": "./dist/are-core.js",
