@@ -1,40 +1,40 @@
-# are-core — Action Rule Event Engine
+# are-engine-core — Action Rule Event Engine
 
-Sıfır bağımlılık, hafif olay-kural-eylem motoru.
+Zero dependency, lightweight event-rule-action engine.
 
-Browser, Node.js, React, Vue, React Native, Electron — her JS/TS ortamında çalışır.
+Browser, Node.js, React, Vue, React Native, Electron — works in any JS/TS environment.
 
-> Bu paket, C# [ARE.Core](../ARE.Core/) motorunun JavaScript/TypeScript portudur.
-> Aynı mimari, aynı API, aynı davranış.
+> This package is the JavaScript/TypeScript port of the C# [ARE.Core](../ARE.Core/) engine.
+> Same architecture, same API, same behavior.
 
 ---
 
-## Kurulum
+## Installation
 
 ```bash
 npm install are-engine-core
 ```
 
-Build adımı yok. TypeScript tip tanımları dahil gelir.
+No build step required. TypeScript type definitions are included out of the box.
 
 ---
 
-## Hızlı Başlangıç
+## Quick Start
 
 ```javascript
-const { AreEngine, Rule } = require('are-core');
-// veya
-// import { AreEngine, Rule } from 'are-core';
+const { AreEngine, Rule } = require('are-engine-core');
+// or
+// import { AreEngine, Rule } from 'are-engine-core';
 
-// 1) Engine oluştur
+// 1) Create the engine
 const engine = new AreEngine();
 
-// 2) Action kaydet
+// 2) Register an action
 engine.registerAction('send_email', async (ctx, s) => {
-  console.log('Email gönderildi:', s.get('template'));
+  console.log('Email sent:', s.get('template'));
 });
 
-// 3) Kural tanımla
+// 3) Define a rule
 engine.addRule(
   Rule.create('vip_order')
     .on('order.created')
@@ -42,23 +42,23 @@ engine.addRule(
     .then('send_email', s => s.set('template', 'vip_welcome'))
 );
 
-// 4) Event fırlat
+// 4) Fire an event
 await engine.fire('order.created', e => e.set('total', 7500));
-// Çıktı: Email gönderildi: vip_welcome
+// Output: Email sent: vip_welcome
 ```
 
 ---
 
-## Detaylı Kullanım
+## Detailed Usage
 
-### Action Tanımlama — Obje ile
+### Defining an Action — Object-Based
 
 ```javascript
 const damageAction = {
   actionType: 'damage',
   execute: async (ctx, settings) => {
     const amount = settings.get('amount');
-    console.log(`${amount} hasar verildi!`);
+    console.log(`${amount} damage dealt!`);
     ctx.set('lastDamage', amount);
   }
 };
@@ -66,7 +66,7 @@ const damageAction = {
 engine.registerAction(damageAction);
 ```
 
-### Action Tanımlama — Inline
+### Defining an Action — Inline
 
 ```javascript
 engine.registerAction('log', async (ctx, s) => {
@@ -74,7 +74,7 @@ engine.registerAction('log', async (ctx, s) => {
 });
 ```
 
-### Kural Tanımlama — Fluent Builder
+### Defining a Rule — Fluent Builder
 
 ```javascript
 engine.addRule(
@@ -90,63 +90,63 @@ engine.addRule(
 );
 ```
 
-### Birden Fazla Event Dinleme
+### Listening to Multiple Events
 
 ```javascript
 Rule.create('license_warning')
   .on('app.started', 'license.checked')
   .when('expiring', (evt) => (evt.data.days_remaining ?? 999) <= 7)
   .then('show_notification', s => s
-    .set('title', 'Lisans Uyarısı')
-    .set('message', '7 gün kaldı!'))
+    .set('title', 'License Warning')
+    .set('message', '7 days remaining!'))
 ```
 
-### Koşul Tipleri
+### Condition Types
 
 ```javascript
-// Alan karşılaştırma (deklaratif)
+// Field comparison (declarative)
 .whenEquals('status', 'active')
 .whenGreaterThan('score', 100)
 .whenLessThan('stock', 10)
 .whenField('category', CompareOp.Contains, 'premium')
 .whenField('role', CompareOp.In, ['admin', 'moderator'])
 
-// Lambda (esnek)
+// Lambda (flexible)
 .when('custom_check', (evt, ctx) => {
   return evt.data.total > 1000 && ctx.get('user_type') === 'vip';
 })
 ```
 
-### MatchMode — Koşul Eşleşme Modları
+### MatchMode — Condition Matching Modes
 
 ```javascript
-const { MatchMode } = require('are-core');
+const { MatchMode } = require('are-engine-core');
 
-// Tüm koşullar doğru olmalı (AND) — varsayılan
+// All conditions must be true (AND) — default
 .withMatchMode(MatchMode.All)
 
-// En az bir koşul doğru olmalı (OR)
+// At least one condition must be true (OR)
 .withMatchMode(MatchMode.Any)
 
-// Hiçbir koşul doğru olmamalı (NOT)
+// No conditions should be true (NOT)
 .withMatchMode(MatchMode.None)
 
-// Tam olarak bir koşul doğru olmalı
+// Exactly one condition must be true
 .withMatchMode(MatchMode.ExactlyOne)
 ```
 
 ### Middleware
 
 ```javascript
-// Loglama
+// Logging middleware
 engine.use(0, async (ctx, next) => {
-  console.log('Event başladı:', ctx.currentEvent.eventType);
+  console.log('Event started:', ctx.currentEvent.eventType);
   const start = Date.now();
   await next();
-  console.log('Event bitti:', (Date.now() - start) + 'ms');
+  console.log('Event completed:', (Date.now() - start) + 'ms');
 });
 
-// Auth kontrolü
+// Auth middleware
 engine.use(-10, async (ctx, next) => {
   if (!ctx.get('isAuthenticated')) {
     ctx.stopPipeline = true;
@@ -156,27 +156,27 @@ engine.use(-10, async (ctx, next) => {
 });
 ```
 
-### Doğrudan Listener (Kural Olmadan)
+### Direct Listener (Without Rules)
 
 ```javascript
 engine.on('order.created', async (evt, ctx) => {
-  console.log('Sipariş:', evt.data.order_id);
+  console.log('Order received:', evt.data.order_id);
 });
 ```
 
-### Dinamik Kural Yönetimi
+### Dynamic Rule Management
 
 ```javascript
-// Tek kural
+// Individual rules
 engine.disableRule('seasonal_discount');
 engine.enableRule('seasonal_discount');
 engine.removeRule('old_rule');
 
-// Grup toplu
+// Entire groups
 engine.disableGroup('marketing');
 engine.enableGroup('marketing');
 
-// Runtime'da yeni kural ekle
+// Add a new rule at runtime
 engine.addRule(
   Rule.create('flash_sale')
     .inGroup('marketing')
@@ -186,17 +186,17 @@ engine.addRule(
 );
 ```
 
-### Akış Kontrolü
+### Flow Control
 
 ```javascript
-// Pipeline'ı tamamen durdur (sonraki kurallar çalışmaz)
+// Stop the entire pipeline (remaining rules will not execute)
 engine.registerAction('validate', async (ctx) => {
   if (!ctx.currentEvent.data.valid) {
     ctx.stopPipeline = true;
   }
 });
 
-// Sadece mevcut kuralın kalan action'larını atla
+// Skip only the remaining actions of the current rule
 engine.registerAction('conditional_skip', async (ctx) => {
   if (someCondition) {
     ctx.skipRemainingActions = true;
@@ -204,7 +204,7 @@ engine.registerAction('conditional_skip', async (ctx) => {
 });
 ```
 
-### Context — Action'lar Arası Veri Paylaşımı
+### Context — Sharing Data Between Actions
 
 ```javascript
 engine.registerAction('calculate', async (ctx) => {
@@ -216,35 +216,35 @@ engine.registerAction('apply_tax', async (ctx) => {
   ctx.set('totalWithTax', total * 1.18);
 });
 
-// İkisi aynı event'te sırayla çalışırsa, context üzerinden veri paylaşır
+// When both run sequentially in the same event, they share data via context
 ```
 
-### Sonuç Okuma
+### Reading Results
 
 ```javascript
 const result = await engine.fire('order.created', e => e.set('total', 7500));
 
-console.log('Tetiklenen:', result.firedRules.length);
-console.log('Atlanan:', result.skippedRules.length);
-console.log('Pipeline durdu mu:', result.pipelineStopped);
-console.log('Süre:', result.duration + 'ms');
+console.log('Fired:', result.firedRules.length);
+console.log('Skipped:', result.skippedRules.length);
+console.log('Pipeline stopped:', result.pipelineStopped);
+console.log('Duration:', result.duration + 'ms');
 
 result.firedRules.forEach(r => {
   console.log(`  ${r.ruleId} → ${r.executedActions.join(', ')}`);
 });
 
 result.skippedRules.forEach(r => {
-  console.log(`  ${r.ruleId} → sağlanmayan: ${r.failedConditions.join(', ')}`);
+  console.log(`  ${r.ruleId} → failed: ${r.failedConditions.join(', ')}`);
 });
 ```
 
 ---
 
-## React Kullanımı
+## React Usage
 
 ```jsx
-import { AreEngine, Rule, GameEvent, AreContext } from 'are-core';
-import { useRef, useState } from 'react';
+import { AreEngine, Rule, GameEvent, AreContext } from 'are-engine-core';
+import { useRef } from 'react';
 
 function useAreEngine(setup) {
   const engineRef = useRef(null);
@@ -263,7 +263,7 @@ function useAreEngine(setup) {
   return { fire, engine: engineRef.current };
 }
 
-// Kullanım
+// Usage
 function App() {
   const { fire } = useAreEngine((engine) => {
     engine.registerAction('toast', async (ctx, s) => {
@@ -274,45 +274,45 @@ function App() {
       Rule.create('big_order')
         .on('cart.checkout')
         .whenGreaterThan('total', 500)
-        .then('toast', s => s.set('message', '🎉 Kargo bedava!'))
+        .then('toast', s => s.set('message', 'Free shipping!'))
     );
   });
 
-  return <button onClick={() => fire('cart.checkout', { total: 700 })}>Ödeme;
+  return <button onClick={() => fire('cart.checkout', { total: 700 })}>Checkout</button>;
 }
 ```
 
 ---
 
-## Export Listesi
+## Export List
 
 ```javascript
 const {
-  AreEngine,      // Çekirdek motor
-  AreContext,      // Paylaşılan veri çantası
-  GameEvent,       // Varsayılan event implementasyonu
-  Rule,            // Fluent kural builder
-  ActionSettings,  // Action parametreleri
-  FieldCondition,  // Alan karşılaştırma koşulu
+  AreEngine,      // Core engine
+  AreContext,      // Shared data bag
+  GameEvent,       // Default event implementation
+  Rule,            // Fluent rule builder
+  ActionSettings,  // Action parameters
+  FieldCondition,  // Field comparison condition
   MatchMode,       // All, Any, None, ExactlyOne
-  CompareOp,       // Equal, GreaterThan, Contains, In vb.
-} = require('are-core');
+  CompareOp,       // Equal, GreaterThan, Contains, In, etc.
+} = require('are-engine-core');
 ```
 
 ---
 
-## TypeScript Desteği
+## TypeScript Support
 
-Tip tanımları (`are-core.d.ts`) pakete dahildir. Ek kurulum gerekmez.
+Type definitions (`are-core.d.ts`) are included in the package. No additional setup required.
 
 ```typescript
-import { AreEngine, Rule, IAction, IEvent, AreContext, ActionSettings } from 'are-core';
+import { AreEngine, Rule, IAction, IEvent, AreContext, ActionSettings } from 'are-engine-core';
 
-// Kendi action tipini tanımla
+// Define a custom action type
 const myAction: IAction = {
   actionType: 'my_action',
-  execute: async (ctx: AreContext, settings: ActionSettings): Promise => {
-    const value = settings.get('key');
+  execute: async (ctx: AreContext, settings: ActionSettings): Promise<void> => {
+    const value = settings.get<string>('key');
     ctx.set('result', value);
   }
 };
@@ -320,34 +320,33 @@ const myAction: IAction = {
 
 ---
 
-## Farklı Ortamlarda Import
+## Import Patterns
 
 ```javascript
 // CommonJS (Node.js, Electron)
-const { AreEngine, Rule } = require('are-core');
+const { AreEngine, Rule } = require('are-engine-core');
 
 // ES Module (React, Vue, Angular, Vite, Next.js)
-import { AreEngine, Rule } from 'are-core';
+import { AreEngine, Rule } from 'are-engine-core';
 
 // Script tag (browser - global)
-// dist/are-core.js dosyasını doğrudan kullanabilirsin
-
+// You can use the dist/are-core.js file directly
 ```
 
 ---
 
-## Testler
+## Tests
 
 ```bash
 npm test
-# veya
+# or
 node test/test.js
 ```
 
-17 test: engine, koşullar, MatchMode, middleware, pipeline kontrolü, grup yönetimi, context paylaşımı.
+17 tests covering: engine, conditions, MatchMode, middleware, pipeline control, group management, and context sharing.
 
 ---
 
-## Lisans
+## License
 
 MIT

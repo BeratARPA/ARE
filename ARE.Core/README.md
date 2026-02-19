@@ -1,12 +1,12 @@
 # ARE.Core — Action Rule Event Engine
 
-Sıfır bağımlılık, cross-platform, hafif olay-kural-eylem motoru.
+Zero dependency, cross-platform, lightweight event-rule-action engine.
 
-Oyun, web, mobil, masaüstü — her yerde aynı yapı, aynı mantık.
+Game, web, mobile, desktop — same architecture, same logic everywhere.
 
 ---
 
-## Mimari
+## Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -21,98 +21,98 @@ Oyun, web, mobil, masaüstü — her yerde aynı yapı, aynı mantık.
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**Akış:**
+**Pipeline Flow:**
 
-1. Bir **Event** fırlatılır (örn: `order.created`, `player.died`)
-2. **Middleware** zinciri çalışır (loglama, auth, audit vb.)
-3. Event tipine uyan **Rule**'lar bulunur, önceliğe göre sıralanır
-4. Her kuralın **Condition**'ları değerlendirilir (MatchMode'a göre)
-5. Koşullar sağlanırsa kuralın **Action**'ları sırayla çalıştırılır
-6. Tüm akış boyunca **Context** üzerinden veri paylaşılır
-
----
-
-## Bileşenler
-
-| Bileşen | Görev | Açıklama |
-|---------|-------|----------|
-| **IEvent** | Olay | Sistemde olan biten şey. `eventType` + `data` + `timestamp` taşır |
-| **IAction** | Eylem | Yapılacak iş. `ActionSettings` ile parametrize edilir |
-| **ICondition** | Koşul | Bir kuralın çalışıp çalışmayacağını belirler |
-| **IRule** | Kural | Event → Condition → Action bağlantısı. Grup, öncelik, MatchMode içerir |
-| **IMiddleware** | Ara katman | Event işlenmeden önce/sonra araya girer |
-| **AreContext** | Paylaşılan veri | Tüm pipeline boyunca action'lar ve kurallar arası veri taşır |
-| **ActionSettings** | Eylem ayarları | Her action bağlantısına özel key-value parametreler |
-| **EngineResult** | Sonuç | Hangi kurallar tetiklendi, hangileri atlandı, süre bilgisi |
+1. An **Event** is fired (e.g., `order.created`, `player.died`)
+2. The **Middleware** chain runs (logging, auth, audit, etc.)
+3. **Rules** matching the event type are found and sorted by priority
+4. Each rule's **Conditions** are evaluated (according to its MatchMode)
+5. If conditions are met, the rule's **Actions** execute in order
+6. Throughout the entire flow, **Context** enables shared data between components
 
 ---
 
-## MatchMode — Koşul Eşleşme Modları
+## Components
 
-| Mod | Açıklama | Karşılık |
-|-----|----------|----------|
-| `All` | Tüm koşullar doğru olmalı | AND |
-| `Any` | En az bir koşul doğru olmalı | OR |
-| `None` | Hiçbir koşul doğru olmamalı | NOT |
-| `ExactlyOne` | Tam olarak bir koşul doğru olmalı | XOR benzeri |
-
----
-
-## CompareOp — Karşılaştırma Operatörleri
-
-| Operatör | Açıklama |
-|----------|----------|
-| `Equal` | Eşit |
-| `NotEqual` | Eşit değil |
-| `GreaterThan` | Büyük |
-| `GreaterOrEqual` | Büyük veya eşit |
-| `LessThan` | Küçük |
-| `LessOrEqual` | Küçük veya eşit |
-| `Contains` | İçeriyor (string) |
-| `StartsWith` | İle başlıyor (string) |
-| `In` | Liste içinde var |
+| Component | Role | Description |
+|-----------|------|-------------|
+| **IEvent** | Event | Something that happened in the system. Carries `eventType` + `data` + `timestamp` |
+| **IAction** | Action | The work to be performed. Parameterized via `ActionSettings` |
+| **ICondition** | Condition | Determines whether a rule should execute |
+| **IRule** | Rule | The Event → Condition → Action binding. Contains group, priority, and MatchMode |
+| **IMiddleware** | Middleware | Intercepts the pipeline before/after event processing |
+| **AreContext** | Shared Data | Carries data across the entire pipeline between actions and rules |
+| **ActionSettings** | Action Parameters | Key-value parameters specific to each action binding |
+| **EngineResult** | Result | Reports which rules fired, which were skipped, and execution duration |
 
 ---
 
-## Akış Kontrolü
+## MatchMode — Condition Matching Modes
 
-| Özellik | Etki |
-|---------|------|
-| `context.StopPipeline = true` | Tüm pipeline durur, kalan kurallar çalışmaz |
-| `context.SkipRemainingActions = true` | Sadece mevcut kuralın kalan action'ları atlanır |
+| Mode | Description | Equivalent |
+|------|-------------|------------|
+| `All` | All conditions must be true | AND |
+| `Any` | At least one condition must be true | OR |
+| `None` | No conditions should be true | NOT |
+| `ExactlyOne` | Exactly one condition must be true | XOR-like |
 
 ---
 
-## Kurulum
+## CompareOp — Comparison Operators
+
+| Operator | Description |
+|----------|-------------|
+| `Equal` | Equal to |
+| `NotEqual` | Not equal to |
+| `GreaterThan` | Greater than |
+| `GreaterOrEqual` | Greater than or equal to |
+| `LessThan` | Less than |
+| `LessOrEqual` | Less than or equal to |
+| `Contains` | Contains (string) |
+| `StartsWith` | Starts with (string) |
+| `In` | Exists in a list |
+
+---
+
+## Flow Control
+
+| Property | Effect |
+|----------|--------|
+| `context.StopPipeline = true` | Stops the entire pipeline; remaining rules will not execute |
+| `context.SkipRemainingActions = true` | Skips only the remaining actions of the current rule |
+
+---
+
+## Installation
 
 ```bash
 dotnet add package ARE.Core
 ```
 
-Veya `.csproj` dosyasına:
+Or add to your `.csproj` file:
 
 ```xml
-
+<PackageReference Include="ARE.Core" Version="1.0.0" />
 ```
 
 ---
 
-## Hızlı Başlangıç
+## Quick Start
 
 ```csharp
 using ARE.Core;
 
-// 1) Engine oluştur
+// 1) Create the engine
 var engine = new AreEngine();
 
-// 2) Action kaydet
+// 2) Register an action
 engine.RegisterAction("send_email", async (ctx, s) =>
 {
     var template = s.Get("template");
-    Console.WriteLine($"Email gönderildi: {template}");
+    Console.WriteLine($"Email sent: {template}");
 });
 
-// 3) Kural tanımla
+// 3) Define a rule
 engine.AddRule(
     Rule.Create("vip_order")
         .On("order.created")
@@ -120,16 +120,16 @@ engine.AddRule(
         .Then("send_email", s => s.Set("template", "vip_welcome"))
 );
 
-// 4) Event fırlat
+// 4) Fire an event
 await engine.FireAsync("order.created", e => e.Set("total", 7500.0));
-// Çıktı: Email gönderildi: vip_welcome
+// Output: Email sent: vip_welcome
 ```
 
 ---
 
-## Detaylı Kullanım
+## Detailed Usage
 
-### Action Tanımlama — Sınıf ile
+### Defining an Action — Class-Based
 
 ```csharp
 public class DamageAction : IAction
@@ -140,17 +140,17 @@ public class DamageAction : IAction
     {
         var amount = settings.Get("amount");
         var target = context.Get("target") ?? "player";
-        Console.WriteLine($"{target} → {amount} hasar aldı!");
+        Console.WriteLine($"{target} took {amount} damage!");
         context.Set("lastDamage", amount);
         return Task.CompletedTask;
     }
 }
 
-// Kayıt
+// Registration
 engine.RegisterAction(new DamageAction());
 ```
 
-### Action Tanımlama — Inline (Hızlı Prototipleme)
+### Defining an Action — Inline (Quick Prototyping)
 
 ```csharp
 engine.RegisterAction("log", async (ctx, s) =>
@@ -159,15 +159,15 @@ engine.RegisterAction("log", async (ctx, s) =>
 });
 ```
 
-### Kural Tanımlama — Fluent Builder
+### Defining a Rule — Fluent Builder
 
 ```csharp
 engine.AddRule(
     Rule.Create("boss_room_spawn")
-        .InGroup("spawning")           // Grup
-        .WithPriority(10)              // Öncelik (yüksek = önce)
-        .On("player.enter_zone")       // Hangi event
-        .WithMatchMode(MatchMode.All)  // Tüm koşullar sağlanmalı
+        .InGroup("spawning")           // Group
+        .WithPriority(10)              // Priority (higher = runs first)
+        .On("player.enter_zone")       // Which event to listen for
+        .WithMatchMode(MatchMode.All)  // All conditions must be met
         .WhenEquals("zone_type", "boss")
         .When("level_check", (evt, ctx) =>
         {
@@ -179,35 +179,35 @@ engine.AddRule(
 );
 ```
 
-### Birden Fazla Event Dinleme
+### Listening to Multiple Events
 
 ```csharp
 Rule.Create("license_warning")
-    .On("app.started", "license.checked")  // İki event de tetikler
+    .On("app.started", "license.checked")  // Both events trigger this rule
     .When("expiring", (evt, _) =>
     {
         var days = evt.Data.TryGetValue("days_remaining", out var d) ? (int)d : 999;
         return days <= 7;
     })
     .Then("show_notification", s => s
-        .Set("title", "Lisans Uyarısı")
-        .Set("message", "7 gün kaldı!"))
+        .Set("title", "License Warning")
+        .Set("message", "7 days remaining!"))
 ```
 
 ### Middleware
 
 ```csharp
-// Loglama middleware'i
+// Logging middleware
 engine.Use(0, async (ctx, next) =>
 {
-    Console.WriteLine($"Event başladı: {ctx.CurrentEvent?.EventType}");
+    Console.WriteLine($"Event started: {ctx.CurrentEvent?.EventType}");
     var start = DateTime.UtcNow;
     await next();
     var elapsed = (DateTime.UtcNow - start).TotalMilliseconds;
-    Console.WriteLine($"Event bitti: {elapsed:F1}ms");
+    Console.WriteLine($"Event completed: {elapsed:F1}ms");
 });
 
-// Auth middleware'i
+// Auth middleware
 engine.Use(-10, async (ctx, next) =>
 {
     var isAuth = ctx.Get("is_authenticated");
@@ -220,30 +220,30 @@ engine.Use(-10, async (ctx, next) =>
 });
 ```
 
-### Doğrudan Listener (Kural Olmadan)
+### Direct Listener (Without Rules)
 
 ```csharp
 engine.On("order.created", async (evt, ctx) =>
 {
-    Console.WriteLine($"Sipariş geldi: {evt.Data["order_id"]}");
+    Console.WriteLine($"Order received: {evt.Data["order_id"]}");
 });
 ```
 
-### Dinamik Kural Yönetimi
+### Dynamic Rule Management
 
 ```csharp
-// Tek kural aç/kapat
+// Enable/disable individual rules
 engine.DisableRule("seasonal_discount");
 engine.EnableRule("seasonal_discount");
 
-// Grup toplu aç/kapat
+// Enable/disable entire groups
 engine.DisableGroup("marketing");
 engine.EnableGroup("marketing");
 
-// Kural kaldır
+// Remove a rule
 engine.RemoveRule("old_rule");
 
-// Runtime'da yeni kural ekle
+// Add a new rule at runtime
 engine.AddRule(
     Rule.Create("flash_sale")
         .InGroup("marketing")
@@ -253,94 +253,75 @@ engine.AddRule(
 );
 ```
 
-### Sonuç Okuma
+### Reading Results
 
 ```csharp
 var result = await engine.FireAsync("order.created", e => e.Set("total", 7500.0));
 
-Console.WriteLine($"Tetiklenen: {result.FiredRules.Count}");
-Console.WriteLine($"Atlanan: {result.SkippedRules.Count}");
-Console.WriteLine($"Pipeline durdu mu: {result.PipelineStopped}");
-Console.WriteLine($"Süre: {result.Duration.TotalMilliseconds}ms");
+Console.WriteLine($"Fired: {result.FiredRules.Count}");
+Console.WriteLine($"Skipped: {result.SkippedRules.Count}");
+Console.WriteLine($"Pipeline stopped: {result.PipelineStopped}");
+Console.WriteLine($"Duration: {result.Duration.TotalMilliseconds}ms");
 
 foreach (var rule in result.FiredRules)
     Console.WriteLine($"  {rule.RuleId} → {string.Join(", ", rule.ExecutedActions)}");
 
 foreach (var rule in result.SkippedRules)
-    Console.WriteLine($"  {rule.RuleId} → sağlanmayan: {string.Join(", ", rule.FailedConditions)}");
+    Console.WriteLine($"  {rule.RuleId} → failed: {string.Join(", ", rule.FailedConditions)}");
 ```
 
 ---
 
-## Platform Desteği
+## Platform Support
 
-| Platform | Paket | Hedef |
-|----------|-------|-------|
+| Platform | Package | Target |
+|----------|---------|--------|
 | WinForms / WPF | NuGet: `ARE.Core` | net6.0 / net7.0 / net8.0 |
-| .NET MAUI (Mobil) | NuGet: `ARE.Core` | net6.0+ |
+| .NET MAUI (Mobile) | NuGet: `ARE.Core` | net6.0+ |
 | ASP.NET Core | NuGet: `ARE.Core` | net6.0+ |
 | Blazor | NuGet: `ARE.Core` | net6.0+ |
-| Unity | NuGet veya .dll | netstandard2.1 |
+| Unity | NuGet or .dll | netstandard2.1 |
 | Godot (.NET) | NuGet: `ARE.Core` | netstandard2.1 |
-| Node.js / React / Vue | npm: `are-core` | ES2020+ |
-| React Native | npm: `are-core` | ES2020+ |
-| Electron | npm: `are-core` | ES2020+ |
+| Node.js / React / Vue | npm: `are-engine-core` | ES2020+ |
+| React Native | npm: `are-engine-core` | ES2020+ |
+| Electron | npm: `are-engine-core` | ES2020+ |
 
 ---
 
-## Proje Yapısı
+## Project Structure
 
 ```
 ARE.Core/
-├── ARE.Core.sln
-├── README.md
-├── LICENSE
-│
-├── src/
-│   ├── ARE.Core/                      ← NuGet paketi (C#)
-│   │   ├── Abstractions/              ← IEvent, IAction, ICondition, IRule, IMiddleware, Enums
-│   │   ├── Core/                      ← AreEngine, AreContext, GameEvent, ActionSettings
-│   │   ├── Conditions/                ← DataCondition, FieldCondition
-│   │   ├── Rules/                     ← Rule (fluent builder)
-│   │   ├── Results/                   ← EngineResult, RuleResult
-│   │   └── Middleware/                ← InlineHelpers
-│   │
-│   └── are-core/                      ← npm paketi (JS/TS)
-│       ├── dist/                      ← Hazır JS + tip tanımları
-│       └── test/                      ← Testler
-│
-├── examples/
-│   ├── ARE.Examples.Game/             ← Oyun senaryosu
-│   ├── ARE.Examples.WebApi/           ← E-ticaret senaryosu
-│   ├── ARE.Examples.Desktop/          ← POS / masaüstü senaryosu
-│   └── js-examples/                   ← React örneği
-│
-└── tests/
-    └── ARE.Core.Tests/                ← xUnit testleri
+├── Abstractions/              ← IEvent, IAction, ICondition, IRule, IMiddleware, Enums
+├── Core/                      ← AreEngine, AreContext, GameEvent, ActionSettings
+├── Conditions/                ← DataCondition, FieldCondition
+├── Rules/                     ← Rule (fluent builder)
+├── Results/                   ← EngineResult, RuleResult
+└── Middleware/                ← InlineHelpers
 ```
 
 ---
 
-## Paketleme
+## Packaging
 
 **NuGet:**
 
 ```bash
-cd src/ARE.Core
+cd ARE.Core
 dotnet pack -c Release
-# Çıktı: bin/Release/ARE.Core.1.0.0.nupkg
+# Output: bin/Release/ARE.Core.1.0.0.nupkg
 ```
 
 **npm:**
 
 ```bash
-cd src/are-core
+cd are-core
 npm pack
-# Çıktı: are-core-1.0.0.tgz
+# Output: are-engine-core-1.0.0.tgz
 ```
 
 ---
 
-## Lisans
+## License
 
 MIT

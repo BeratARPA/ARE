@@ -1,6 +1,6 @@
 {
   "name": "are-engine-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Action Rule Event Engine - Zero dependency, cross-platform, lightweight event-rule-action engine",
   "main": "dist/are-core.js",
   "types": "dist/are-core.d.ts",

@@ -16,8 +16,39 @@
     <File Path="are-core/dist/are-core.js" />
     <File Path="are-core/dist/are-core.mjs" />
   </Folder>
+  <Folder Name="/src/are-core/examples/">
+    <File Path="are-core/examples/desktop.js" />
+    <File Path="are-core/examples/ecommerce.js" />
+    <File Path="are-core/examples/game.js" />
+  </Folder>
   <Folder Name="/src/are-core/test/">
     <File Path="are-core/test/test.js" />
+  </Folder>
+  <Folder Name="/src/are_engine_core/">
+    <File Path="are_engine_core/analysis_options.yaml" />
+    <File Path="are_engine_core/pubspec.lock" />
+    <File Path="are_engine_core/pubspec.yaml" />
+    <File Path="are_engine_core/README.md" />
+  </Folder>
+  <Folder Name="/src/are_engine_core/example/">
+    <File Path="are_engine_core/example/example.dart" />
+  </Folder>
+  <Folder Name="/src/are_engine_core/lib/">
+    <File Path="are_engine_core/lib/are_engine_core.dart" />
+  </Folder>
+  <Folder Name="/src/are_engine_core/lib/src/">
+    <File Path="are_engine_core/lib/src/action_settings.dart" />
+    <File Path="are_engine_core/lib/src/are_context.dart" />
+    <File Path="are_engine_core/lib/src/are_engine.dart" />
+    <File Path="are_engine_core/lib/src/conditions.dart" />
+    <File Path="are_engine_core/lib/src/enums.dart" />
+    <File Path="are_engine_core/lib/src/game_event.dart" />
+    <File Path="are_engine_core/lib/src/interfaces.dart" />
+    <File Path="are_engine_core/lib/src/results.dart" />
+    <File Path="are_engine_core/lib/src/rule.dart" />
+  </Folder>
+  <Folder Name="/src/are_engine_core/test/">
+    <File Path="are_engine_core/test/are_engine_core_test.dart" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="ARE.Core.Tests/ARE.Core.Tests.csproj" Id="1636ee55-fced-438f-ac9c-463e0f67b001" />

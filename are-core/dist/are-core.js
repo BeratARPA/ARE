@@ -165,7 +165,7 @@ class AreEngine {
         this.onLog = null;
     }
 
-    // -- Kayıt --
+    // -- Registration --
 
     registerAction(actionTypeOrObj, handler) {
         if (typeof actionTypeOrObj === 'string') {
@@ -195,7 +195,7 @@ class AreEngine {
         return this;
     }
 
-    // -- Kural Yönetimi --
+    // -- Rule Management --
 
     enableRule(id) { var r = this._rules.find(function (r) { return r.ruleId === id; }); if (r) r.isEnabled = true; return this; }
     disableRule(id) { var r = this._rules.find(function (r) { return r.ruleId === id; }); if (r) r.isEnabled = false; return this; }
@@ -239,23 +239,23 @@ class AreEngine {
         var self = this;
 
         var coreProcess = async function () {
-            // 1) Doğrudan dinleyiciler
+            // 1) Direct listeners
             var listeners = self._listeners.get(evt.eventType) || [];
             for (var i = 0; i < listeners.length; i++) {
                 if (ctx.stopPipeline) break;
                 await listeners[i](evt, ctx);
             }
 
-            // 2) Eşleşen kurallar (önceliğe göre)
+            // 2) Matching rules (by priority)
             var matching = self._rules
                 .filter(function (r) { return r.isEnabled && r.eventTypes.indexOf(evt.eventType) !== -1; })
                 .sort(function (a, b) { return b.priority - a.priority; });
 
-            self._log('[ARE] Event \'' + evt.eventType + '\' → ' + matching.length + ' aday kural');
+            self._log('[ARE] Event \'' + evt.eventType + '\' → ' + matching.length + ' candidate rules');
 
             for (var j = 0; j < matching.length; j++) {
                 if (ctx.stopPipeline) {
-                    self._log('[ARE] Pipeline durduruldu');
+                    self._log('[ARE] Pipeline stopped');
                     break;
                 }
                 var rule = matching[j];
@@ -268,7 +268,7 @@ class AreEngine {
             }
         };
 
-        // Middleware zinciri
+        // Middleware chain
         var pipeline = coreProcess;
         for (var i = this._middlewares.length - 1; i >= 0; i--) {
             (function (mw, next) {
@@ -280,21 +280,21 @@ class AreEngine {
 
         result.pipelineStopped = ctx.stopPipeline;
         result.duration = Date.now() - start;
-        this._log('[ARE] Event \'' + evt.eventType + '\' tamamlandı: ' +
-            result.firedRules.length + ' tetiklendi, ' +
-            result.skippedRules.length + ' atlandı, ' +
+        this._log('[ARE] Event \'' + evt.eventType + '\' completed: ' +
+            result.firedRules.length + ' fired, ' +
+            result.skippedRules.length + ' skipped, ' +
             result.duration + 'ms');
         return result;
     }
 
-    // -- İç mekanizma --
+    // -- Internal --
 
     async _evaluateAndExecute(rule, evt, ctx) {
         var failedConditions = [];
         var conditionsMet = this._evaluateConditions(rule, evt, ctx, failedConditions);
 
         if (!conditionsMet) {
-            this._log('[ARE]   Kural \'' + rule.ruleId + '\' → koşullar sağlanmadı [' + failedConditions.join(', ') + ']');
+            this._log('[ARE]   Rule \'' + rule.ruleId + '\' → conditions not met [' + failedConditions.join(', ') + ']');
             return { ruleId: rule.ruleId, conditionsMet: false, executedActions: [], failedConditions: failedConditions };
         }
 
@@ -307,16 +307,16 @@ class AreEngine {
             var action = this._actions.get(binding.actionType);
 
             if (!action) {
-                this._log('[ARE]   ⚠ Action \'' + binding.actionType + '\' bulunamadı!');
+                this._log('[ARE]   Action \'' + binding.actionType + '\' not found!');
                 continue;
             }
 
             try {
-                this._log('[ARE]   → Action \'' + binding.actionType + '\' çalıştırılıyor');
+                this._log('[ARE]   → Executing action \'' + binding.actionType + '\'');
                 await action.execute(ctx, binding.settings);
                 executedActions.push(binding.actionType);
             } catch (err) {
-                this._log('[ARE]   ✗ Action \'' + binding.actionType + '\' hata: ' + err.message);
+                this._log('[ARE]   Action \'' + binding.actionType + '\' error: ' + err.message);
                 break;
             }
         }
