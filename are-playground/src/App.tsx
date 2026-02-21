@@ -1,10 +1,13 @@
+import { useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { useAppStore } from './stores/appStore';
+import { useTutorialStore } from './stores/tutorialStore';
 import { Header } from './components/layout/Header';
 import { TabBar } from './components/layout/TabBar';
 import { Footer } from './components/layout/Footer';
 import { ScenarioView } from './components/scenarios/ScenarioView';
 import { SandboxView } from './components/sandbox/SandboxView';
+import { TutorialOverlay } from './components/tutorial/TutorialOverlay';
 import { rpgGameConfig } from './engine/scenarios/rpgGame';
 import { smartHomeConfig } from './engine/scenarios/smartHome';
 import { ecommerceConfig } from './engine/scenarios/ecommerce';
@@ -17,6 +20,20 @@ const scenarioConfigs = {
 
 function App() {
   const activeTab = useAppStore((s) => s.activeTab);
+  const theme = useAppStore((s) => s.theme);
+  const { start, hasSeenTutorial } = useTutorialStore();
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  // Auto-start tutorial on first visit
+  useEffect(() => {
+    if (!hasSeenTutorial() && activeTab !== 'sandbox') {
+      const timer = setTimeout(start, 800);
+      return () => clearTimeout(timer);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -35,6 +52,7 @@ function App() {
         </AnimatePresence>
       </main>
       <Footer />
+      <TutorialOverlay />
     </div>
   );
 }

@@ -29,10 +29,11 @@ export function LiveLog({ scenarioId, color }: LiveLogProps) {
   const allLogs = useLogStore((s) => s.logs);
   const clearLogs = useLogStore((s) => s.clearLogs);
   const logs = useMemo(() => allLogs.filter((l) => l.scenario === scenarioId), [allLogs, scenarioId]);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const el = containerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [logs.length]);
 
   return (
@@ -53,7 +54,7 @@ export function LiveLog({ scenarioId, color }: LiveLogProps) {
         )}
       </div>
 
-      <div className="h-52 overflow-y-auto rounded-lg bg-surface-950/50 p-2 font-mono text-[11px]">
+      <div ref={containerRef} className="h-52 overflow-y-auto rounded-lg bg-surface-950/50 p-2 font-mono text-[11px]">
         {logs.length === 0 ? (
           <div className="flex h-full items-center justify-center text-surface-200/30">
             {t('panels.noLogs')}
@@ -76,7 +77,6 @@ export function LiveLog({ scenarioId, color }: LiveLogProps) {
             ))}
           </AnimatePresence>
         )}
-        <div ref={bottomRef} />
       </div>
     </Card>
   );

@@ -28,12 +28,62 @@
   --color-error: #ff6b6b;
 }
 
+/* ===== Dark Theme (default) ===== */
+:root,
+[data-theme="dark"] {
+  --th-bg: #12152a;
+  --th-bg-secondary: #1a1f36;
+  --th-bg-tertiary: #2b3150;
+  --th-text: #e2e6f0;
+  --th-text-secondary: rgba(226, 230, 240, 0.6);
+  --th-text-muted: rgba(226, 230, 240, 0.4);
+  --th-border: rgba(255, 255, 255, 0.06);
+  --th-border-hover: rgba(255, 255, 255, 0.15);
+  --th-card-bg: rgba(27, 32, 56, 0.7);
+  --th-card-border: rgba(255, 255, 255, 0.06);
+  --th-input-bg: rgba(18, 21, 42, 0.8);
+  --th-input-border: rgba(255, 255, 255, 0.08);
+  --th-btn-ghost-bg: rgba(255, 255, 255, 0.05);
+  --th-btn-ghost-hover: rgba(255, 255, 255, 0.1);
+  --th-hover-bg: rgba(255, 255, 255, 0.03);
+  --th-hover-bg-strong: rgba(255, 255, 255, 0.05);
+  --th-scrollbar: #3d4663;
+  --th-modal-bg: #1a1f36;
+  --th-modal-backdrop: rgba(0, 0, 0, 0.6);
+  --th-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Light Theme ===== */
+[data-theme="light"] {
+  --th-bg: #f5f7fb;
+  --th-bg-secondary: #ffffff;
+  --th-bg-tertiary: #e8ecf4;
+  --th-text: #1a1f36;
+  --th-text-secondary: rgba(26, 31, 54, 0.65);
+  --th-text-muted: rgba(26, 31, 54, 0.4);
+  --th-border: rgba(0, 0, 0, 0.1);
+  --th-border-hover: rgba(0, 0, 0, 0.18);
+  --th-card-bg: rgba(255, 255, 255, 0.85);
+  --th-card-border: rgba(0, 0, 0, 0.08);
+  --th-input-bg: #f0f2f8;
+  --th-input-border: rgba(0, 0, 0, 0.12);
+  --th-btn-ghost-bg: rgba(0, 0, 0, 0.04);
+  --th-btn-ghost-hover: rgba(0, 0, 0, 0.08);
+  --th-hover-bg: rgba(0, 0, 0, 0.02);
+  --th-hover-bg-strong: rgba(0, 0, 0, 0.05);
+  --th-scrollbar: #c1c8d6;
+  --th-modal-bg: #ffffff;
+  --th-modal-backdrop: rgba(0, 0, 0, 0.3);
+  --th-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
 body {
   margin: 0;
-  background: var(--color-surface-950);
-  color: #e2e6f0;
+  background: var(--th-bg);
+  color: var(--th-text);
   font-family: var(--font-sans);
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 ::-webkit-scrollbar {
@@ -44,14 +94,15 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-surface-700);
+  background: var(--th-scrollbar);
   border-radius: 3px;
 }
 
 .glass {
-  background: rgba(27, 32, 56, 0.7);
+  background: var(--th-card-bg);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--th-card-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .glow-primary {
@@ -60,4 +111,136 @@ body {
 
 .glow-accent {
   box-shadow: 0 0 20px rgba(255, 146, 43, 0.15);
+}
+
+/* ===== Light Theme Overrides ===== */
+
+/* Text: white → dark */
+[data-theme="light"] .text-white {
+  color: var(--th-text);
+}
+
+[data-theme="light"] .text-surface-200 {
+  color: var(--th-text-secondary);
+}
+
+[data-theme="light"] .text-surface-200\/80 {
+  color: var(--th-text-secondary);
+}
+
+[data-theme="light"] .text-surface-200\/60 {
+  color: var(--th-text-secondary);
+}
+
+[data-theme="light"] .text-surface-200\/50 {
+  color: var(--th-text-muted);
+}
+
+[data-theme="light"] .text-surface-200\/40 {
+  color: var(--th-text-muted);
+}
+
+[data-theme="light"] .text-surface-200\/30 {
+  color: rgba(26, 31, 54, 0.3);
+}
+
+/* Backgrounds */
+[data-theme="light"] .bg-surface-900\/60 {
+  background: var(--th-bg-tertiary);
+}
+
+[data-theme="light"] .bg-surface-900\/80,
+[data-theme="light"] .bg-surface-950\/80,
+[data-theme="light"] .bg-surface-950\/50 {
+  background: var(--th-input-bg);
+}
+
+[data-theme="light"] .bg-surface-900 {
+  background: var(--th-bg-secondary);
+}
+
+[data-theme="light"] .bg-surface-950 {
+  background: var(--th-bg);
+}
+
+/* Borders */
+[data-theme="light"] .border-white\/3,
+[data-theme="light"] .border-white\/5,
+[data-theme="light"] .border-white\/8,
+[data-theme="light"] .border-white\/10,
+[data-theme="light"] .border-white\/15 {
+  border-color: var(--th-border);
+}
+
+/* White-alpha backgrounds → dark-alpha */
+[data-theme="light"] .bg-white\/1 {
+  background: transparent;
+}
+
+[data-theme="light"] .bg-white\/3 {
+  background: var(--th-hover-bg);
+}
+
+[data-theme="light"] .bg-white\/5 {
+  background: var(--th-btn-ghost-bg);
+}
+
+[data-theme="light"] .hover\:bg-white\/5:hover {
+  background: var(--th-hover-bg-strong);
+}
+
+[data-theme="light"] .hover\:bg-white\/10:hover {
+  background: var(--th-btn-ghost-hover);
+}
+
+[data-theme="light"] .hover\:bg-surface-800\/80:hover {
+  background: var(--th-btn-ghost-hover);
+}
+
+/* Modal backdrop */
+[data-theme="light"] .bg-black\/60 {
+  background: var(--th-modal-backdrop);
+}
+
+/* Badge text adjustments */
+[data-theme="light"] .text-primary-300 {
+  color: #4263eb;
+}
+
+[data-theme="light"] .text-primary-400 {
+  color: #4c6ef5;
+}
+
+[data-theme="light"] .text-accent-400 {
+  color: #e8590c;
+}
+
+[data-theme="light"] .text-success {
+  color: #2b8a3e;
+}
+
+/* Input text */
+[data-theme="light"] input,
+[data-theme="light"] select {
+  color: var(--th-text);
+}
+
+/* Glass in light */
+[data-theme="light"] .glass {
+  box-shadow: var(--th-shadow);
+}
+
+/* Footer/header border */
+[data-theme="light"] .border-t.border-white\/5,
+[data-theme="light"] .border-b.border-white\/5 {
+  border-color: var(--th-border);
+}
+
+/* Dropdown shadow */
+[data-theme="light"] .shadow-xl {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .shadow-2xl {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }

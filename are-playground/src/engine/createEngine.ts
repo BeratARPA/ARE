@@ -124,8 +124,13 @@ export async function fireScenarioEvent(
     pipelineStopped: result.pipelineStopped,
     duration: result.duration,
     timestamp: Date.now(),
+    contextSnapshot: { ...contextData },
   };
   useResultStore.getState().setResult(scenarioId, fireResult);
+
+  // Build flow pipeline steps
+  const { useFlowStore } = await import('../stores/flowStore');
+  useFlowStore.getState().buildSteps(scenarioId, fireResult);
 
   return fireResult;
 }

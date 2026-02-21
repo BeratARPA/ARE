@@ -54,4 +54,30 @@ export interface FireResult {
   pipelineStopped: boolean;
   duration: number;
   timestamp: number;
+  contextSnapshot: Record<string, unknown>;
+}
+
+export interface PipelineStep {
+  id: string;
+  labelKey: string;
+  status: 'pending' | 'active' | 'passed' | 'failed' | 'skipped';
+  details?: string;
+  children?: { ruleId: string; status: 'passed' | 'failed'; label: string }[];
+}
+
+export interface ConditionTrace {
+  raw: string;
+  field: string;
+  operator: string;
+  expected: unknown;
+  actual: unknown;
+  passed: boolean;
+}
+
+export interface RuleTrace {
+  ruleId: string;
+  ruleLabel: string;
+  conditionsMet: boolean;
+  conditions: ConditionTrace[];
+  executedActions: string[];
 }
