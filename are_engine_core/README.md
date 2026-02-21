@@ -11,7 +11,7 @@ Zero dependency, lightweight event-rule-action engine for Dart & Flutter.
 
 ```yaml
 dependencies:
-  are_engine_core: ^1.0.0
+  are_engine_core: ^1.0.2
 ```
 
 ```bash
