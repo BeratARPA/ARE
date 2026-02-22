@@ -18,6 +18,27 @@ Event ───→ Middleware ───→ Rule Matching ───→ Action Exe
 
 ---
 
+## History & Evolution (ARED to ARE)
+
+Every engine starts with a spark. ARE was born from an earlier conceptual framework called [ARED (Action, Rule, Event-Driven Architecture)](https://github.com/BeratARPA/ARED-Architecture). While ARED laid down the theoretical groundwork of decoupling events, rules, and actions to avoid tightly coupled spaghetti code, ARE evolved this concept into a highly optimized, production-ready engine. What started as a structural design pattern is now a fluent, multi-language ecosystem.
+
+## Why ARE? (Engine Philosophy)
+
+There are many rule engines and workflow tools out there. It is important to know where ARE fits in the ecosystem:
+
+| Feature | Heavyweight Rule Engines (e.g., Rete-based) | Expression Evaluators | **ARE Engine** |
+| :--- | :--- | :--- | :--- |
+| **Primary Goal** | Complex, intersecting business rules | Executing string-based math/logic | **Lightweight event-action pipeline** |
+| **Architecture** | Often dictates your entire system design | Used for dynamic formulas | **Non-intrusive (Plugs into any logic)** |
+| **Learning Curve** | Steep | Moderate | **Very Low (Fluent API)** |
+| **Cross-Platform** | Usually locked to one language (.NET/Java) | Locked to one language | **C#, TypeScript/JavaScript, Dart** |
+| **Dependencies** | High | Medium | **Zero-dependency** |
+| **Execution** | Stateful (remembers previous states) | Stateless (evaluates strings) | **Stateless Pipeline (with Middleware)** |
+
+**Choose ARE if:** You need a fast, predictable, and strongly-typed pipeline to handle *"If X happens -> Check Y -> Do Z"* scenarios across different programming languages, without locking your entire architecture into a massive framework.
+
+---
+
 ## What Does It Do?
 
 There is a recurring pattern in every project: *"When something happens, if certain conditions are met, do these things."*
