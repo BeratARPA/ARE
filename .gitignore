@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 # Local Netlify folder
 .netlify
+
+# Dart tool cache
+.dart_tool/
